@@ -15,7 +15,7 @@ namespace ariel {
         int winPo;
         int winPt;
         int counterCardsToTakePerTurn;
-        bool DrawIsHappen = true;
+        bool DrawIsHappen = false;
     public:
         Game(Player& pl1, Player& pl2); // constructor
         void playTurn();
