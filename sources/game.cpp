@@ -45,9 +45,9 @@ void Game::playTurn() {
     if (&pO == &pT) {
         throw std::runtime_error("you try to runing game with the same player");
     }
-    this->DrawIsHappen = true;
     std::string st = "";
-    while (DrawIsHappen == true) {
+    bool procced = true;
+    while (procced == true) {
         if ((this->pO.stacksize() == 0 || this->pT.stacksize() == 0)) {
             throw std::runtime_error("the game is over");
         }
@@ -61,6 +61,7 @@ void Game::playTurn() {
             this->saveTurns.push_back(st);
             removeFromStack(1);
             this->counter = (std::vector<Card>::size_type)(this->pO.stacksize() - 1);
+            procced = false;
         }
         else if (this->pO.cardPerIndex(this->counter).getValue() == Two && this->pT.cardPerIndex(this->counter).getValue() == Ace) {
             this->pO.appendCardsTaken(this->counterCardsToTakePerTurn);
@@ -72,6 +73,7 @@ void Game::playTurn() {
             this->saveTurns.push_back(st);
             removeFromStack(1);
             this->counter = (std::vector<Card>::size_type)(this->pO.stacksize() - 1);
+            procced = false;
         }
         else if (this->pO.cardPerIndex(this->counter).getValue() > this->pT.cardPerIndex(this->counter).getValue()) {
             this->pO.appendCardsTaken(this->counterCardsToTakePerTurn); 
@@ -84,6 +86,7 @@ void Game::playTurn() {
             this->saveTurns.push_back(st);
             removeFromStack(1);
             this->counter = (std::vector<Card>::size_type)(this->pO.stacksize() - 1);
+            procced = false;
         }
         else if (this->pO.cardPerIndex(this->counter).getValue() < this->pT.cardPerIndex(this->counter).getValue()) {
             this->pT.appendCardsTaken(this->counterCardsToTakePerTurn);
@@ -96,6 +99,7 @@ void Game::playTurn() {
             this->saveTurns.push_back(st);
             removeFromStack(1);
             this->counter = (std::vector<Card>::size_type)(this->pO.stacksize() - 1);
+            procced = false;
         }
         else if (this->pO.cardPerIndex(this->counter).getValue() == this->pT.cardPerIndex(this->counter).getValue()) {
             if (this->counter == 0) {
@@ -133,6 +137,7 @@ void Game::playTurn() {
                 this->counter = (std::vector<Card>::size_type)(this->pO.stacksize() - 1);
             }
             this->draw++;
+            this->DrawIsHappen = true;
         }
     }
     if (this->pO.stacksize() == 0 || this->pT.stacksize() == 0) {
